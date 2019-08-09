@@ -1,0 +1,146 @@
+<template>
+  <div>
+    <el-dialog title="编辑产品属性分类" :visible.sync="show" width="50%">
+      <el-form :model="form" style="padding-right:5%;">
+
+        <el-form-item label="名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" auto-complete="off"></el-input>
+        </el-form-item>
+
+        <el-tabs type="border-card" v-model="activeName">
+        <el-tab-pane label="销售属性" name="sale">
+          <div>
+            <div class="clearfix">
+              <el-button style="float: right;" size="small" type="primary" icon="el-icon-plus" @click="openAddDialog">添加</el-button>
+            </div>
+            <div style="margin-top: 10px;">
+              <el-collapse v-model="collapseActive">
+                <el-collapse-item v-for="item in list" :key="item.name" :title="item.name" :name="item.name">
+                  <el-table
+                  :data="item.items">
+
+                    <el-table-column
+                      label="名称"
+                      prop="name">
+                    </el-table-column>
+
+                    <el-table-column
+                      label="别名"
+                      prop="nameAlias">
+                    </el-table-column>
+
+                    <el-table-column
+                      label="属性值编码"
+                      prop="propertyValueCode">
+                    </el-table-column>
+                    
+                    <el-table-column
+                      label="操作" align="center">
+                      <template slot-scope="scope">
+                        <el-button
+                          size="mini"
+                          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        <el-button
+                          size="mini"
+                          type="danger"
+                          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                      </template>
+                    </el-table-column>
+
+                  </el-table>
+                </el-collapse-item>
+              </el-collapse>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="small" @click="show = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="update">确 定</el-button>
+      </div>
+       <div>
+        <add-values
+          ref="add"
+          @getList="getList"/>
+
+        <edit-values
+         ref="edit"
+         @getList="getList"/>
+
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import * as api from '../../../api'
+import addValues from './addValues'
+import editValues from './editValues'
+export default {
+  name: 'products-productPropertyCategory-add',
+  components: { addValues, editValues },
+  data () {
+    return {
+      show: false,
+      form: {},
+      formLabelWidth: '70px',
+      list: [],
+      isSaleProp: true,
+      activeName: 'sale',
+      collapseActive: [],
+      productPropertyCategoryId: ''
+    }
+  },
+  methods: {
+    open (row) {
+      this.productPropertyCategoryId = row.id
+      this.form = {}
+      this.show = true
+      this.getData(row.id)
+      this.getList()
+    },
+    getData (id) {
+      this.$http.post(api.productPropertyCategoryInfo, { id: id }).then(res => {
+        this.form = res.data
+      })
+    },
+    update () {
+      this.$http.post(api.editProductPropertyCategory, this.form).then(res => {
+        this.$emit('getList')
+        this.show = false
+        this.$notify({ title: '成功', message: '保存成功', type: 'success' })
+      })
+    },
+    getList () {
+      this.$http.post(api.getProductPropertyCategoryPropertyVaules, { id: this.productPropertyCategoryId, isSaleProp: this.isSaleProp }).then(res => {
+        this.list = res.data
+        this.collapseActive = res.data.map(x => {
+          return x.name
+        })
+      })
+    },
+    openAddDialog () {
+      this.$refs.add.open(this.form, this.isSaleProp)
+    },
+    handleClick (tab, event) {
+      this.isSaleProp = tab.name === 'sale'
+      this.getList()
+    },
+    handleEdit (index, row) {
+      this.$refs.edit.open(row)
+    },
+    handleDelete (index, row) {
+      this.$http.post(api.delRelationPropertyValue, { id: row.id }).then(res => {
+        this.getList()
+        this.$notify({ title: '成功', message: '删除成功', type: 'success' })
+      })
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>

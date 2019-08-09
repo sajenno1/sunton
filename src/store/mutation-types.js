@@ -1,0 +1,19 @@
+export const SIGN_IN = 'SIGN_IN'
+export const SIGN_OUT = 'SIGN_OUT'
+export const GET_ACCESS_TOKEN = 'GET_ACCESS_TOKEN'
+export const GET_ADMIN_INFO = 'GET_ADMIN_INFO'
+
+export const TOGGLE_LOADING = 'TOGGLE_LOADING'
+
+export const ADD_VISITED_VIEWS = 'ADD_VISITED_VIEWS'
+export const DEL_VISITED_VIEWS = 'DEL_VISITED_VIEWS'
+
+export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR'
+
+export const GET_MODULE_MENUS = 'GET_MODULE_MENUS'
+export const GET_MENUS = 'GET_MENUS'
+
+export const SET_ACTIVE_INDEX = 'SET_ACTIVE_INDEX'
+export const ACTIVE_MENU = 'ACTIVE_MENU'
+
+export const SITE_ITEM = 'SITE_ITEM'
