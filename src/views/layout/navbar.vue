@@ -48,10 +48,28 @@
 								<el-menu-item v-for="item in navbar" :key="item.id" :index="item.id">{{ item.text }}</el-menu-item>
 							</el-menu>
 							 -->
-							 <el-menu :default-active="activeIndex" mode="horizontal" :background-color="backgroundColor" text-color="#fff"
-							  active-text-color="#ffd04b" @select="handleSelect">
-							 	<el-menu-item v-for="item in navbar" :key="item.id" :index="item.id">{{ item.text }}</el-menu-item>
-							 </el-menu>
+							
+							<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
+							:background-color="backgroundColor" text-color="#fff" active-text-color="#ffd04b">
+								<el-menu-item v-for="item in navbar" :key="item.id" :index="item.id">{{ item.text}}</el-menu-item>
+								<!-- 
+								<el-menu-item index="1">处理中心</el-menu-item>
+								<el-submenu index="2">
+									<template slot="title">我的工作台</template>
+									<el-menu-item index="2-1">选项1</el-menu-item>
+									<el-menu-item index="2-2">选项2</el-menu-item>
+									<el-menu-item index="2-3">选项3</el-menu-item>
+									<el-submenu index="2-4">
+										<template slot="title">选项4</template>
+										<el-menu-item index="2-4-1">选项1</el-menu-item>
+										<el-menu-item index="2-4-2">选项2</el-menu-item>
+										<el-menu-item index="2-4-3">选项3</el-menu-item>
+									</el-submenu>
+								</el-submenu>
+								<el-menu-item index="3" disabled>消息中心</el-menu-item>
+								<el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item> 
+								-->
+							</el-menu>
 						</div>
 					</div>
 				</el-col>
@@ -87,11 +105,12 @@
 		name: 'navbar',
 		data() {
 			return {
-				backgroundColor: this.$store.state.app.backgroundColor
+				backgroundColor: this.$store.state.app.backgroundColor,
+				menus: this.$store.state.app.menus
 			}
 		},
 		methods: {
-			te(e){
+			te(e) {
 				console.log(e)
 				console.log(this)
 			},
@@ -152,7 +171,11 @@
 			},
 			siteSetting() {
 				return this.$store.state.account.siteItem.value
-			}
+			},
+			
+		},
+		create() {
+			
 		}
 	}
 </script>
@@ -160,7 +183,7 @@
 <style lang="scss" scoped>
 	.nav-top {
 		overflow: hidden;
-		height: 50px;
+		height: 60px;
 		z-index: 1002;
 	}
 
@@ -168,13 +191,13 @@
 		position: relative;
 		float: left;
 		width: 160px;
-		height: 50px;
+		height: 60px;
 		padding-right: 20px;
 		color: #fff;
 		font-size: 20px;
 		font-weight: bold;
 		text-align: center;
-		line-height: 50px;
+		line-height: 60px;
 		z-index: 9999999999;
 	}
 
@@ -192,9 +215,9 @@
 	}
 
 	.nav-user {
-		float: left;
+		float: left; 
 		width: 60%;
-		height: 50px;
+		height: 60px;
 		cursor: pointer;
 	}
 
@@ -217,9 +240,8 @@
 	}
 
 	.el-menu--horizontal>.el-menu-item {
-		height: 50px;
-		line-height: 50px;
+		height: 60px;
+		line-height: 60px;
 	}
-	
 	
 </style>

@@ -18,19 +18,19 @@
         <el-submenu v-if="item.children" :index="item.id" :key="item.id">
           <template slot="title">
             <i :class="item.iconClass || 'oel-icon-xitongshiti'"></i>
-            <span slot="title">{{ item.text }}</span>
+            <span slot="title">{{ item.text+""+"1" }}</span>
           </template>
           <el-menu-item-group>
             <el-menu-item v-for="children in item.children" :index="children.webUrl" height="48px" :key="children.id">
               <i :class="children.iconClass || 'oel-icon-xitongshiti'"></i>
-              <span slot="title">{{ children.text }}</span>
+              <span slot="title">{{ children.text+""+"2" }}</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
 
         <el-menu-item v-else :index="item.webUrl" :key="item.id">
           <i :class="item.iconClass || 'oel-icon-xitongshiti'"></i>
-          <span slot="title">{{ item.text }}</span>
+          <span slot="title">{{ item.text+""+"3" }}</span>
         </el-menu-item>
       </template>
     </el-menu>
@@ -92,6 +92,7 @@ export default {
     }
   },
   mounted () {
+		
   }
 }
 </script>

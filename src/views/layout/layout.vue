@@ -5,11 +5,11 @@
 				<navbar></navbar>
 			</el-header>
 			<el-container>
-				<!-- <el-aside :width="isCollapse ? '64px' : '180px'">
+				<el-aside :width="isCollapse ? '64px' : '180px'">
 					<div class="el-nav-left" :style="isCollapse ? 'width:64px' : 'width:180px'">
 						<sidebar></sidebar>
 					</div>
-				</el-aside> -->
+				</el-aside>
 				<el-main>
 					<tabs-view></tabs-view>
 					<appMain></appMain>
@@ -62,7 +62,7 @@ export default {
 }
 
 .el-header {
-height: 50px;
+height: 60px;
 }
 
 </style>
