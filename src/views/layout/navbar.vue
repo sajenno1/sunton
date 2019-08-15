@@ -49,9 +49,51 @@
 							</el-menu>
 							 -->
 							
-							<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-							:background-color="backgroundColor" text-color="#fff" active-text-color="#ffd04b">
-								<el-menu-item v-for="item in navbar" :key="item.id" :index="item.id">{{ item.text}}</el-menu-item>
+							<el-menu :default-active="activeIndex1" class="el-menu-demo" mode="horizontal" 
+							@select="handleSelect"
+							:background-color="backgroundColor" 
+							text-color="#fff" 
+							active-text-color="#ffd04b" 
+							:router="true"
+							>
+								<!-- <el-menu-item v-for="item in navbar" :key="item.id" :index="item.id">{{ item.text}}</el-menu-item> -->
+								<el-submenu v-for="item in navbar" :index="item.id" :key="item.id">
+									<template slot="title">{{item.text}}</template>
+									<template v-for="(sbus,index) in menus">
+										<template v-if="index == item.id">
+											<template v-for="is in sbus">
+												<el-submenu v-if="is.children" :index="is.id" :key="is.id">
+													<template slot="title">{{is.text}}</template>
+													<el-menu-item v-for="iis in is.children" 
+													:index="iis.webUrl"
+													:key="iis.id">{{iis.text}}</el-menu-item>
+												</el-submenu>
+												
+												<el-menu-item v-else 
+												:index="is.webUrl"
+												:key="is.id">{{is.text}}</el-menu-item>
+												<!-- <template v-else-if="is.webUrl == ''">
+													<template slot="title">{{is.text}}</template>
+													<el-menu-item v-for="iis in is.children" 
+													:index="iis.webUrl"
+													:key="iis.id">{{iis.text}}</el-menu-item>
+												</template> -->
+											</template>
+										</template>
+									</template>
+									<!-- 
+									<el-menu-item index="2-1">选项1</el-menu-item>
+									<el-menu-item index="2-2">选项2</el-menu-item>
+									<el-menu-item index="2-3">选项3</el-menu-item>
+									<el-submenu index="2-4">
+										<template slot="title">选项4</template>
+										<el-menu-item index="2-4-1">选项1</el-menu-item>
+										<el-menu-item index="2-4-2">选项2</el-menu-item>
+										<el-menu-item index="2-4-3">选项3</el-menu-item>
+									</el-submenu> 
+									-->
+								</el-submenu>
+								
 								<!-- 
 								<el-menu-item index="1">处理中心</el-menu-item>
 								<el-submenu index="2">
@@ -106,7 +148,6 @@
 		data() {
 			return {
 				backgroundColor: this.$store.state.app.backgroundColor,
-				menus: this.$store.state.app.menus
 			}
 		},
 		methods: {
@@ -172,7 +213,12 @@
 			siteSetting() {
 				return this.$store.state.account.siteItem.value
 			},
-			
+			menus() {
+				return this.$store.state.app.moduleMenus.menus
+			},
+			activeIndex1 () {
+			  return this.$route.path
+			}
 		},
 		create() {
 			

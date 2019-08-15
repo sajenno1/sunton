@@ -4,10 +4,8 @@
 			<el-col :span="24">
 
 				<router-link v-for="tag in Array.from(visitedViews)" :to="tag.path" :key="tag.path">
-					<el-tag :closable="true" :type="isActive(tag.path) ? '' : 'info'" @close='closeViewTabs(tag,$event)'
-					@node-contextmenu="rightClick"
-					>
-						{{tag.name}}a
+					<el-tag :closable="true" :type="isActive(tag.path) ? '' : 'info'" @close='closeViewTabs(tag,$event)'>
+						{{tag.name}}
 					</el-tag>
 				</router-link>
 

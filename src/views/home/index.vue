@@ -1,7 +1,6 @@
 <template >
   <div>
-    主页
-    
+    {{$store.state.app.moduleMenus}}
   </div>
 </template>
 
@@ -20,7 +19,7 @@ export default {
         type: [],
         resource: '',
         desc: '',
-				menus: this.$store.state.app.menus
+				moduleMenus: this.$store.state.app.moduleMenus
       }
     }
   },
@@ -36,6 +35,8 @@ export default {
 				console.log("old:" + m)
 			}
 		}
+	},
+	mounted() {
 	}
 }
 </script>
