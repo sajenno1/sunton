@@ -20,13 +20,12 @@
 </template>
 
 <script>
-import sidebar from './sidebar'
 import navbar from './navbar'
 import appMain from './appMain'
 import tabsView from './tabsView'
 export default {
   name: 'layout',
-  components: { sidebar, navbar, appMain, tabsView },
+  components: { navbar, appMain, tabsView },
   data () {
     return {
       backgroundStyle: {

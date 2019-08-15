@@ -1,6 +1,6 @@
 <template >
   <div>
-    {{$store.state.app.moduleMenus}}
+    主页
   </div>
 </template>
 
