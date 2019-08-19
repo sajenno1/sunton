@@ -2,7 +2,7 @@
   <div>
     <el-card>
       <div slot="header">
-        <span>经销商管理 </span>
+        <span>经销商管理 <button @click="refresh()"> 刷新</button> </span>
       </div>
 
       <div class="searchCon clearfix">
@@ -311,6 +311,7 @@ import antiChannelConflitAddressList from './addressList'
 export default {
   name: 'antiChannelConflict-dealer-list',
   components: { antiChannelConflictDealerAdd, antiChannelConflictDealerEdit, antiChannelConflictDealerAdminAccountList, antiChannelConflitAddressList },
+	inject:['reload'],
   data () {
     return {
       pageSize: 10,
@@ -556,7 +557,10 @@ export default {
       // this.$router.go('/antichannelconflict/dealer/sellStorelist/-' + parentId)
       // this.$router.push({path: '/antichannelconflict/dealer/sellStorelist/-' + parentId})
       this.$router.push({path: '/antichannelconflict/dealer/sellStorelist'})
-    }
+    },
+		refresh() {
+			this.reload();
+		}
   },
   mounted () {
     this.getList()

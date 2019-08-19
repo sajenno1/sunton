@@ -12,7 +12,7 @@
 				</el-aside> -->
 				<el-main>
 					<tabs-view></tabs-view>
-					<appMain></appMain>
+					<appMain ></appMain>
 				</el-main>
 			</el-container>
 		</el-container>
@@ -31,15 +31,16 @@ export default {
       backgroundStyle: {
         background: this.$store.state.app.backgroundColor,
         height: 50
-      }
+      },
     }
   },
   methods: {},
   computed: {
+	
     isCollapse () {
       return this.$store.state.app.isCollapse
     }
-  }
+  },
 }
 </script>
 

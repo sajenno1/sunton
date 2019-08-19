@@ -1,21 +1,20 @@
 <template>
 	<div class="scr-top">
-		<el-row >
-			<el-col :span="24" >
+		<el-row>
+			<el-col :span="24" v-menus>
 
 				<router-link v-for="tag in Array.from(visitedViews)" :to="tag.path" :key="tag.path">
 
-					<el-tag v-menus :key="tag.path" :closable="true" :type="isActive(tag.path) ? '' : 'info'" @close='closeViewTabs(tag,$event)'>
+					<el-tag :data-url="tag.path" :key="tag.path" :closable="true" :type="isActive(tag.path) ? '' : 'info'" @close='closeViewTabs(tag,$event)'>
 						{{tag.name}}
 					</el-tag>
-					
+
 				</router-link>
-	<ul class="contextmenu" :style="{'left': menuLeft, 'top': menuTop}" v-show="menuShow">
-		<li @click="ff">刷新</li>
-		<li>关闭</li>
-		<li>关闭其它</li>
-		<li>关闭所有</li>
-	</ul>
+				<ul class="contextmenu" :style="{'left': menuLeft, 'top': menuTop}" v-show="menuShow">
+					<li>关闭</li>
+					<li>关闭其它</li>
+					<li>关闭所有</li>
+				</ul>
 
 			</el-col>
 		</el-row>
@@ -26,6 +25,7 @@
 <script>
 	export default {
 		name: 'tabs-view',
+		inject:['reload'],
 		data() {
 			return {
 				menuShow: false,
@@ -40,17 +40,17 @@
 				inserted: function(el, binding, vnode) {
 					//获取vue实例对象
 					let vm = vnode.context;
-					let showFlag = true;
+					let _showFlag = true;
 					// vnode = vnode.elm;
 					//阻止默认浏览器的右键菜单
 					el.oncontextmenu = ((event) => {
 						event.preventDefault();
 					});
 					el.onmouseup = ((event) => {
-						if (event.button === 2) {
+						if (event.button === 2 && event.target.localName == "span") {
 							vm.menuShow = true;
-							showFlag = false;
-							vm.url = vnode.key;
+							_showFlag = false;
+							vm.url = event.target.dataset.url;
 							let realTop = vm.getElementToPageTop(vnode.elm);
 							let realLeft = vm.getElementToPageLeft(vnode.elm);
 							let top = event.pageY - realTop + 5 + 'px';
@@ -59,12 +59,14 @@
 							vm.menuTop = top;
 						}
 					});
-					
+
 					document.onmouseup = (() => {
-						if (showFlag) {
+						if (_showFlag) {
 							vm.menuShow = false;
 						}
-						setTimeout(function(){showFlag = true;},100)
+						setTimeout(function() {
+							_showFlag = true;
+						}, 100)
 					});
 				}
 			}
@@ -75,6 +77,7 @@
 				return path === this.$route.path
 			},
 			closeViewTabs(view, $event) {
+				debugger
 				this.$store.dispatch('app/delVisitedViews', view).then((views) => {
 					if (this.isActive(view.path)) {
 						const latestView = views.slice(-1)[0]
@@ -95,10 +98,10 @@
 				return this.$route.matched[0]
 			},
 			addViewTabs() {
+				
 				this.$store.dispatch('app/addVisitedViews', this.generateRoute())
 			},
 			show() {
-				console.log(11111)
 			},
 			getElementToPageTop: function(el) {
 				if (el.offsetParent) {
@@ -111,13 +114,11 @@
 					return this.getElementToPageLeft(el.offsetParent) + el.offsetLeft;
 				}
 				return el.offsetLeft;
-			},
-			ff: function() {
-				alert(this.url)
 			}
 		},
 		computed: {
 			visitedViews() {
+				/** TODO*/
 				return this.$store.state.app.visitedViews.slice()
 			}
 		},
