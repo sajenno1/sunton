@@ -2,7 +2,7 @@
   <div>
     <el-card>
       <div slot="header">
-        <span>经销商管理 <button @click="refresh()"> 刷新</button> </span>
+        <span>经销商管理</span>
       </div>
 
       <div class="searchCon clearfix">

@@ -11,9 +11,10 @@
 
 				</router-link>
 				<ul class="contextmenu" :style="{'left': menuLeft, 'top': menuTop}" v-show="menuShow">
-					<li>关闭</li>
-					<li>关闭其它</li>
-					<li>关闭所有</li>
+					<li @click="refresh">刷新</li>
+					<li @click="closeVT">关闭</li>
+					<li @click="closeOther">关闭其它</li>
+					<li @click="closeAll">关闭所有</li>
 				</ul>
 
 			</el-col>
@@ -25,7 +26,7 @@
 <script>
 	export default {
 		name: 'tabs-view',
-		inject:['reload'],
+		inject: ['reload'],
 		data() {
 			return {
 				menuShow: false,
@@ -48,6 +49,7 @@
 					});
 					el.onmouseup = ((event) => {
 						if (event.button === 2 && event.target.localName == "span") {
+							event.target.click();
 							vm.menuShow = true;
 							_showFlag = false;
 							vm.url = event.target.dataset.url;
@@ -77,7 +79,6 @@
 				return path === this.$route.path
 			},
 			closeViewTabs(view, $event) {
-				debugger
 				this.$store.dispatch('app/delVisitedViews', view).then((views) => {
 					if (this.isActive(view.path)) {
 						const latestView = views.slice(-1)[0]
@@ -88,6 +89,7 @@
 						}
 					}
 				})
+				if($event)
 				$event.preventDefault()
 			},
 			generateRoute() {
@@ -98,11 +100,10 @@
 				return this.$route.matched[0]
 			},
 			addViewTabs() {
-				
+
 				this.$store.dispatch('app/addVisitedViews', this.generateRoute())
 			},
-			show() {
-			},
+			show() {},
 			getElementToPageTop: function(el) {
 				if (el.offsetParent) {
 					return this.getElementToPageTop(el.offsetParent) + el.offsetTop;
@@ -114,6 +115,35 @@
 					return this.getElementToPageLeft(el.offsetParent) + el.offsetLeft;
 				}
 				return el.offsetLeft;
+			},
+			refresh() {
+				let that = this.$parent.$children[0].$el.className === "app-main" ? this.$parent.$children[0] : 
+					this.$parent.$children[1]
+				that.reload()
+			},
+			closeVT() {
+				let arr = this.visitedViews;
+				let closeTab;
+				for(let i = 0 ; i < arr.length ; i++) {
+					if(arr[i].path == this.url){
+						closeTab = arr[i];
+						break;
+					}
+				}
+				this.closeViewTabs(closeTab)
+			},
+			closeAll() {
+				let arr = this.visitedViews;
+				for(let i = 0 ; i < arr.length ; i++) {
+					this.closeViewTabs(arr[i]);
+				}
+			},
+			closeOther() {
+				let arr = this.visitedViews;
+				for(let i = 0 ; i < arr.length ; i++) {
+					if(arr[i].path == this.url)continue
+					this.closeViewTabs(arr[i]);
+				}
 			}
 		},
 		computed: {

@@ -494,7 +494,7 @@
           return
         }
         if (this.updateDeliveryId === null) {
-          this.$notify({
+          this.$notify({ 
             title: '错误',
             message: '请先选择修改的运费模板！',
             type: 'error'

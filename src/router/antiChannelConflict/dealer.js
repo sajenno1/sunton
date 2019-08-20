@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable */ 
 import layout from '@/views/layout/layout.vue'
 const dealerList = r => require.ensure([], () => r(require('@/views/antiChannelConflict/dealer/list.vue')), 'group-antiChannelConflict-dealer')
 const dealerTreeList = r => require.ensure([], () => r(require('@/views/antiChannelConflict/dealer/treelist.vue')), 'group-antiChannelConflict-dealertree')
@@ -20,7 +20,6 @@ const antiChannelConflictDealer = [
         meta: {
           displayName: '经销商管理',
           requireAuth: true,
-          keepAlive: false
         }
       },
       // {

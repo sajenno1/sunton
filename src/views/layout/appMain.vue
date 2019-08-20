@@ -42,10 +42,7 @@
 			// }
 			
 		},
-		activated() {
-			console.log(1)
-			this.refreshCpn = ""
-		}
+		
 	}
 </script>
 
